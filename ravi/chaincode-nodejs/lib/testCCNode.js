@@ -32,7 +32,7 @@ class TestCCNodeJS extends Contract {
         ];
 
         for (const DashBoard of DashBoards) {
-            DashBoard.docType = 'DashBoard';
+           // DashBoard.docType = 'DashBoard';
             await ctx.stub.putState(DashBoard.invoice_number, Buffer.from(JSON.stringify(DashBoard)));
             console.info(`DashBoard ${DashBoard.invoice_number} initialized`);
         }
@@ -41,7 +41,7 @@ class TestCCNodeJS extends Contract {
     // CreateDashBoard : add a new DashBoard in an organization.
     async CreateDashBoard(ctx, invoice_number, generated_Date, contractor_Name, start_Date, end_Date, vendor_Name, rate, total_Hours_Billed, 
         approved_Amount,
-        skills, role, location) {
+        skills, role,experience, location) {
         const DashBoard = {
             Invoice_number: invoice_number,
             Generated_Date: generated_Date,
@@ -54,6 +54,7 @@ class TestCCNodeJS extends Contract {
             Approved_Amount: approved_Amount,
             Skills: skills,
             Role: role,
+            experience:experience,
             Location: location,
         };
         ctx.stub.putState(invoice_number, Buffer.from(JSON.stringify(DashBoard)));
@@ -72,7 +73,7 @@ class TestCCNodeJS extends Contract {
     // // Update DashBoard Records - Name / Designation CHange .
     async UpdateDashBoardInfo(ctx,  invoice_number, generated_Date, contractor_Name, start_Date, end_Date, vendor_Name, rate, total_Hours_Billed, 
         approved_Amount,
-        skills, role, location) {
+        skills, role,experience, location) {
         const exists = await this.DashBoardExists(ctx, invoice_number);
         if (!exists) {
             throw new Error(`The DashBoard ${invoice_number} does not exist`);
@@ -91,6 +92,7 @@ class TestCCNodeJS extends Contract {
             Approved_Amount: approved_Amount,
             Skills: skills,
             Role: role,
+            Experience:experience,
             Location: location,
 
         };
@@ -136,6 +138,8 @@ class TestCCNodeJS extends Contract {
 }
 
 module.exports = TestCCNodeJS;
+
+
 
 
 
