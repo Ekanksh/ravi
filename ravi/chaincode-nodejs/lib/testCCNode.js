@@ -1,7 +1,7 @@
 /*
  * Copyright IBM Corp. All Rights Reserved.
  *
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Invoice_numberentifier: Apache-2.0
  */
 
 'use strict';
@@ -11,91 +11,110 @@ const { Contract } = require('fabric-contract-api');
 class TestCCNodeJS extends Contract {
 
     async InitLedger(ctx) {
-        const employees = [
+        const DashBoards = [
             {
-              id : '1',
-              name : 'Navyateja',
-              role : 'Sr. SE',
+                Invoice_number: 123,
+                Generated_Date: "17 Apr",
+                Contractor_Name: "ravi",
+                Start_Date: "1 Sep",
+                End_Date: "30 Sep",
+                Vendor_Name: "raj",
+                Rate: 45,
+                Total_Hours_Billed: 30,
+                Approved_Amount: 3045,
+                Skills: engineering,
+                Role: developer,
+                Experience: 4,
+                Location: indore,
             },
-            { 
-              id : '2',
-              name : 'Azhar',
-              role : 'Jr. SE',
-            },
-            { 
-              id : '3',
-              name : 'Raviranjan',
-              role : 'Jr. SE',
-            },
-            {
-              id : '4',
-              name : 'Sathwik',
-              role : 'Jr. SE',
-            },
+
+
         ];
 
-        for (const employee of employees) {
-            employee.docType = 'employee';
-            await ctx.stub.putState(employee.id, Buffer.from(JSON.stringify(employee)));
-            console.info(`Employee ${employee.id} initialized`);
+        for (const DashBoard of DashBoards) {
+            DashBoard.docType = 'DashBoard';
+            await ctx.stub.putState(DashBoard.Invoice_number, Buffer.from(JSON.stringify(DashBoard)));
+            console.info(`DashBoard ${DashBoard.Invoice_number} initialized`);
         }
     }
 
-    // CreateEmployee : add a new employee in an organization.
-    async CreateEmployee(ctx, id, name, role) {
-        const employee = {
-            Id: id,
-            Name: name,
-            Role: role
+    // CreateDashBoard : add a new DashBoard in an organization.
+    async CreateDashBoard(ctx, Invoice_number, Generated_Date, Contractor_Name, Start_Date, End_Date,Vendor_Name,
+        Rate, Total_Hours_Billed, Approved_Amount, Skills, Role, Experience, Location ) {
+        const DashBoard = {
+            Invoice_number: Number,
+            Generated_Date: String,
+            Contractor_Name: String,
+            Start_Date: String,
+            End_Date: String,
+            Vendor_Name: String,
+            Rate: Number,
+            Total_Hours_Billed: Number,
+            Approved_Amount: Number,
+            Skills: String,
+            Role: String,
+            Experience: Number,
+            Location: String,
         };
-        ctx.stub.putState(id, Buffer.from(JSON.stringify(employee)));
-        return JSON.stringify(employee);
+        ctx.stub.putState(Invoice_number, Buffer.from(JSON.stringify(DashBoard)));
+        return JSON.stringify(DashBoard);
     }
 
-    // Fetch Info of an  individual employee with empID.
-    async empDetails(ctx, id) {
-        const empJSON = await ctx.stub.getState(id); // get the asset from chaincode state
+    // Fetch Info of an  indivInvoice_numberual DashBoard with empInvoice_number.
+    async DashBoardDetails(ctx, Invoice_number) {
+        const empJSON = await ctx.stub.getState(Invoice_number); // get the asset from chaincode state
         if (!empJSON || empJSON.length === 0) {
-            throw new Error(`The employee ${id} does not exist`);
+            throw new Error(`The DashBoard ${Invoice_number} does not exist`);
         }
         return empJSON.toString();
     }
 
-    // Update Employee Records - Name / Designation CHange .
-    async UpdateEmpInfo(ctx, id, name, role) {
-        const exists = await this.EmployeeExists(ctx, id);
+    // Update DashBoard Records - Name / Designation CHange .
+    async UpdateDashBoardInfo(ctx, Invoice_number, Generated_Date, Contractor_Name, Start_Date, End_Date,Vendor_Name,
+        Rate, Total_Hours_Billed, Approved_Amount, Skills, Role, Experience, Location ) {
+        const exists = await this.DashBoardExists(ctx, Invoice_number);
         if (!exists) {
-            throw new Error(`The employee ${id} does not exist`);
+            throw new Error(`The DashBoard ${Invoice_number} does not exist`);
         }
 
         // overwriting info
         const updatedInfo = {
-            ID: id,
-            Name: name,
-            Role: role,
+            Invoice_number: Invoice_number,
+            Generated_Date: String,
+            Contractor_Name: String,
+            Start_Date: String,
+            End_Date: String,
+            Vendor_Name: String,
+            Rate: Number,
+            Total_Hours_Billed: Number,
+            Approved_Amount: Number,
+            Skills: String,
+            Role: String,
+            Experience: Number,
+            Location: String,
+            
         };
-        return ctx.stub.putState(id, Buffer.from(JSON.stringify(updatedInfo)));
+        return ctx.stub.putState(Invoice_number, Buffer.from(JSON.stringify(updatedInfo)));
     }
 
-    // DeleteEmployee
-    async DeleteEmployee(ctx, id) {
-        const exists = await this.EmployeeExists(ctx, id);
+    // DeleteDashBoard
+    async DeleteDashBoard(ctx, Invoice_number) {
+        const exists = await this.DashBoardExists(ctx, Invoice_number);
         if (!exists) {
-            throw new Error(`The Employee ${id} does not exist`);
+            throw new Error(`The DashBoard ${Invoice_number} does not exist`);
         }
-        return ctx.stub.deleteState(id);
+        return ctx.stub.deleteState(Invoice_number);
+    }
+    // DashBoardExists returns true when asset with given Invoice_number exists in world state.
+    async DashBoardExists(ctx, Invoice_number) {
+        const DashBoardJSON = await ctx.stub.getState(Invoice_number);
+        return DashBoardJSON && DashBoardJSON.length > 0;
     }
 
-    // EmployeeExists returns true when asset with given ID exists in world state.
-    async EmployeeExists(ctx, id) {
-        const employeeJSON = await ctx.stub.getState(id);
-        return employeeJSON && employeeJSON.length > 0;
-    }
-
-    // GetAllEmployeeDetails returns all records of employees found in the world state.
-    async GetAllEmployeeDetails(ctx) {
+    // GetAllDashBoardDetails returns all records of DashBoards found in the world state.
+    async GetAllDashBoardDetails(ctx) {
         const allResults = [];
-        // range query with empty string for startKey and endKey does an open-ended query of all employees in the chaincode namespace.
+        // range query with empty string for startKey and endKey does an open-ended query of all DashBoards in the chaincode namespace.
         const iterator = await ctx.stub.getStateByRange('', '');
         let result = await iterator.next();
         while (!result.done) {
@@ -117,3 +136,6 @@ class TestCCNodeJS extends Contract {
 }
 
 module.exports = TestCCNodeJS;
+
+
+
