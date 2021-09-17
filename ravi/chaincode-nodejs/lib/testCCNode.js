@@ -13,19 +13,19 @@ class TestCCNodeJS extends Contract {
     async InitLedger(ctx) {
         const DashBoards = [
             {
-                Invoice_number: 123,
-                Generated_Date: "17 Apr",
-                Contractor_Name: "ravi",
-                Start_Date: "1 Sep",
-                End_Date: "30 Sep",
-                Vendor_Name: "raj",
-                Rate: 45,
-                Total_Hours_Billed: 30,
-                Approved_Amount: 3045,
-                Skills: engineering,
-                Role: developer,
-                Experience: 4,
-                Location: indore,
+                invoice_number: '123',
+                generated_Date: '17 Apr',
+                contractor_Name: 'ravi',
+                start_Date: '1 Sep',
+                end_Date: '30 Sep',
+                vendor_Name: 'raj',
+                rate: '45',
+                total_Hours_Billed: '30',
+                approved_Amount: '3045',
+                skills: 'engineering',
+                role: 'developer',
+                experience: '4',
+                location: 'indore',
             },
 
 
@@ -33,81 +33,81 @@ class TestCCNodeJS extends Contract {
 
         for (const DashBoard of DashBoards) {
             DashBoard.docType = 'DashBoard';
-            await ctx.stub.putState(DashBoard.Invoice_number, Buffer.from(JSON.stringify(DashBoard)));
-            console.info(`DashBoard ${DashBoard.Invoice_number} initialized`);
+            await ctx.stub.putState(DashBoard.invoice_number, Buffer.from(JSON.stringify(DashBoard)));
+            console.info(`DashBoard ${DashBoard.invoice_number} initialized`);
         }
     }
 
     // CreateDashBoard : add a new DashBoard in an organization.
-    async CreateDashBoard(ctx, Invoice_number, Generated_Date, Contractor_Name, Start_Date, End_Date,Vendor_Name,
-        Rate, Total_Hours_Billed, Approved_Amount, Skills, Role, Experience, Location ) {
+    async CreateDashBoard(ctx, invoice_number, generated_Date, contractor_Name, start_Date, end_Date, vendor_Name, rate, total_Hours_Billed, 
+        approved_Amount,
+        skills, role, location) {
         const DashBoard = {
-            Invoice_number: Number,
-            Generated_Date: String,
-            Contractor_Name: String,
-            Start_Date: String,
-            End_Date: String,
-            Vendor_Name: String,
-            Rate: Number,
-            Total_Hours_Billed: Number,
-            Approved_Amount: Number,
-            Skills: String,
-            Role: String,
-            Experience: Number,
-            Location: String,
+            Invoice_number: invoice_number,
+            Generated_Date: generated_Date,
+            Contractor_Name: contractor_Name,
+            Start_Date: start_Date,
+            End_Date: end_Date,
+            Vendor_Name: vendor_Name,
+            Rate: rate,
+            Total_Hours_Billed: total_Hours_Billed,
+            Approved_Amount: approved_Amount,
+            Skills: skills,
+            Role: role,
+            Location: location,
         };
-        ctx.stub.putState(Invoice_number, Buffer.from(JSON.stringify(DashBoard)));
+        ctx.stub.putState(invoice_number, Buffer.from(JSON.stringify(DashBoard)));
         return JSON.stringify(DashBoard);
     }
 
     // Fetch Info of an  indivInvoice_numberual DashBoard with empInvoice_number.
-    async DashBoardDetails(ctx, Invoice_number) {
-        const empJSON = await ctx.stub.getState(Invoice_number); // get the asset from chaincode state
+    async DashBoardDetails(ctx, invoice_number) {
+        const empJSON = await ctx.stub.getState(invoice_number); // get the asset from chaincode state
         if (!empJSON || empJSON.length === 0) {
-            throw new Error(`The DashBoard ${Invoice_number} does not exist`);
+            throw new Error(`The DashBoard ${invoice_number} does not exist`);
         }
         return empJSON.toString();
     }
 
-    // Update DashBoard Records - Name / Designation CHange .
-    async UpdateDashBoardInfo(ctx, Invoice_number, Generated_Date, Contractor_Name, Start_Date, End_Date,Vendor_Name,
-        Rate, Total_Hours_Billed, Approved_Amount, Skills, Role, Experience, Location ) {
-        const exists = await this.DashBoardExists(ctx, Invoice_number);
+    // // Update DashBoard Records - Name / Designation CHange .
+    async UpdateDashBoardInfo(ctx,  invoice_number, generated_Date, contractor_Name, start_Date, end_Date, vendor_Name, rate, total_Hours_Billed, 
+        approved_Amount,
+        skills, role, location) {
+        const exists = await this.DashBoardExists(ctx, invoice_number);
         if (!exists) {
-            throw new Error(`The DashBoard ${Invoice_number} does not exist`);
+            throw new Error(`The DashBoard ${invoice_number} does not exist`);
         }
 
-        // overwriting info
+        //     // overwriting info
         const updatedInfo = {
-            Invoice_number: Invoice_number,
-            Generated_Date: String,
-            Contractor_Name: String,
-            Start_Date: String,
-            End_Date: String,
-            Vendor_Name: String,
-            Rate: Number,
-            Total_Hours_Billed: Number,
-            Approved_Amount: Number,
-            Skills: String,
-            Role: String,
-            Experience: Number,
-            Location: String,
-            
+            Invoice_number: invoice_number,
+            Generated_Date: generated_Date,
+            Contractor_Name: contractor_Name,
+            Start_Date: start_Date,
+            End_Date: end_Date,
+            Vendor_Name: vendor_Name,
+            Rate: rate,
+            Total_Hours_Billed: total_Hours_Billed,
+            Approved_Amount: approved_Amount,
+            Skills: skills,
+            Role: role,
+            Location: location,
+
         };
-        return ctx.stub.putState(Invoice_number, Buffer.from(JSON.stringify(updatedInfo)));
+        return ctx.stub.putState(invoice_number, Buffer.from(JSON.stringify(updatedInfo)));
     }
 
-    // DeleteDashBoard
-    async DeleteDashBoard(ctx, Invoice_number) {
-        const exists = await this.DashBoardExists(ctx, Invoice_number);
+    // // DeleteDashBoard
+    async DeleteDashBoard(ctx, invoice_number) {
+        const exists = await this.DashBoardExists(ctx, invoice_number);
         if (!exists) {
-            throw new Error(`The DashBoard ${Invoice_number} does not exist`);
+            throw new Error(`The DashBoard ${invoice_number} does not exist`);
         }
-        return ctx.stub.deleteState(Invoice_number);
+        return ctx.stub.deleteState(invoice_number);
     }
-    // DashBoardExists returns true when asset with given Invoice_number exists in world state.
-    async DashBoardExists(ctx, Invoice_number) {
-        const DashBoardJSON = await ctx.stub.getState(Invoice_number);
+    // // DashBoardExists returns true when asset with given Invoice_number exists in world state.
+    async DashBoardExists(ctx, invoice_number) {
+        const DashBoardJSON = await ctx.stub.getState(invoice_number);
         return DashBoardJSON && DashBoardJSON.length > 0;
     }
 
@@ -136,6 +136,9 @@ class TestCCNodeJS extends Contract {
 }
 
 module.exports = TestCCNodeJS;
+
+
+
 
 
 
