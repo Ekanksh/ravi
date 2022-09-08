@@ -14,23 +14,23 @@ class TestCCNodeJS extends Contract {
         const employees = [
             {
               id : '1',
-              name : 'Navyateja',
-              role : 'Sr. SE',
+              name : 'Prajakta',
+              role : 'Jr. SE',
             },
             { 
               id : '2',
-              name : 'Azhar',
+              name : 'Anjali',
               role : 'Jr. SE',
             },
             { 
               id : '3',
               name : 'Raviranjan',
-              role : 'Jr. SE',
+              role : 'SE',
             },
             {
               id : '4',
-              name : 'Sathwik',
-              role : 'Jr. SE',
+              name : 'Deepak',
+              role : 'SE',
             },
         ];
 
